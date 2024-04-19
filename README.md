@@ -53,9 +53,7 @@ Brief description of each step in the 9-step predict process:
   
   [Step 4:](#4_section_id) This step involves the creation of an AWS DynamoDB NoSQL database. This database will be used to store website data as and when visitors send an enquiry. 
     
-  [Step 5:](#5_section_id) Here you will create an IAM role that will give your AWS Lambda function (created in step 6) the required permissions to interact with AWS Comprehend, AWS SES, AWS DynamoDB and AWS API Gateway.
-    
-  [Step 6:](#6_section_id) In this step things get interesting. We set up the AWS Lambda function, a Numpy ARN layer, and an AWS API Gateway trigger:
+  [Step 5:](#5_section_id) In this step things get interesting. We set up the AWS Lambda function, a Numpy ARN layer, and an AWS API Gateway trigger:
     
    - **The AWS Lambda Function** will be used to:
         - Write data to Amazon DynamoDB;
@@ -67,11 +65,11 @@ Brief description of each step in the 9-step predict process:
 
    - **The AWS API Gateway trigger** configures a publicly accessible HTTP API which listens for POST requests from the webpage. When a request is received, its content is parsed and used to invoke the connected lambda function.   
     
-  [Step 7:](#7_section_id) In step seven you will need to configure the Lambda function created previously to write incoming data from the website to the DynamoDB database created in step four.
+  [Step 6:](#6_section_id) In step seven you will need to configure the Lambda function created previously to write incoming data from the website to the DynamoDB database created in step four.
     
-  [Step 8:](#8_section_id) This step involves the configuration of the AWS SES service so that your pipeline can send emails automatically with the help of a Lambda function.
+  [Step 7:](#7_section_id) This step involves the configuration of the AWS SES service so that your pipeline can send emails automatically with the help of a Lambda function.
     
-  [Step 9:](#9_section_id) In this final step you will be required to complete the NLP portion of the predict with the use of AWS Comprehend and by defining additional program logic. At a high level, AWS Comprehend will be used to extract sentiment and key phrases from a message sent from your static website. Using programming logic, you will then define several helper methods and functions which will enable the population of an automated response if the extracted key phrases and sentiment align to specific operating conditions. 
+  [Step 8:](#8_section_id) In this final step you will be required to complete the NLP portion of the predict with the use of AWS Comprehend and by defining additional program logic. At a high level, AWS Comprehend will be used to extract sentiment and key phrases from a message sent from your static website. Using programming logic, you will then define several helper methods and functions which will enable the population of an automated response if the extracted key phrases and sentiment align to specific operating conditions. 
 
 ---
 ### 1) Fork the Template Repository <a id='1_section_id'></a>
@@ -83,7 +81,7 @@ If you have any trouble forking the repo, you might find [this link](https://doc
 
 | :zap: WARNING :zap:                                                                                     |
 | :--------------------                                                                                   |
-| This predict represents an individual project. As such when forking this repo, you need to ensure that it is hosted *privately* within your GitHub account, free from collaboration form your peers or access from the public.| 
+| This predict represents an individual project. As such when forking this repo, you need to ensure that it is hosted *privately* within your GitHub account, free from collaboration from your peers or access from the public.| 
 
 ---
 ### 2) Modify the Portfolio Webpage Template <a id='2_section_id'></a>
@@ -176,44 +174,37 @@ The following steps will help you set this service up within the AWS ecosystem:
   II. On the DynamoDB `Dashboard` select `Create Table`.
 
   <p align="center">
-  <img src="https://github.com/AndileSkosana/cloud-computing-predict/assets/93772102/10f597ab-9803-44ba-990f-f26df40f070c" style="width:550px;"/>
-
+  <img src="https://github.com/AndileSkosana/cloud-computing-predict/assets/93772102/9037d78e-3b38-493d-95b8-9211d09b11e4" style="width:550px;"/>
     <br>
     <em>Figure 2: Create a DynamoDB table</em>
   </p>
   
-  III. Give your table a relevant name, for example, `my-portfolio-data-table`. Store this name for use in later stages of the predict.
+  III. Give your table a relevant name using the following naming convention, Cohort-(first three letters of your first name)(first three letters of your first name)-portfolio-data-table, so for example Dora Explorer from the January 2023 data engineering part time cohort would be, `2301PTDE-DOREXP-portfolio-data-table`. Store this name for use in later stages of the predict.
   
-  IV. In the `Primary Key` field insert `ResponsesID` and set the type to number.
-  
-  <p align="center">
-  <img src="https://raw.githubusercontent.com/Explore-AI/Pictures/master/db-2.PNG" style="width:550px;"/>
-    <br>
-    <em>Figure 3: Create a DynamoDB table</em>
-  </p>  
+  IV. In the `Partition Key` field insert `ResponsesID` and set the type to number.
   
   V. Click on `Create`.
   
-  VI. Select the table you just created from the side panel,  and under the `Items` tab,  click on `Create Item`.
+  VI. Select the table you just created from the side panel,  and under the `Actions` dropdown,  click on `Create Item`.
   
   <p align="center">
-  <img src="https://raw.githubusercontent.com/Explore-AI/Pictures/master/db-3.PNG" style="width:750px;"/>
+  <img src="https://github.com/AndileSkosana/cloud-computing-predict/assets/93772102/46ffff32-529a-42da-9bc5-d86fb34d1ca9" style="width:750px;"/>
     <br>
     <em>Figure 4: Add new items and their data types to created table</em>
   </p>  
   
   VII. Set an initial index by entering the number '100' in the `ResponsesID` field. (Note that this field represents a unique primary key that will be generated within the Lambda function upon its execution)
   
-  VIII. Click on the `+` icon and select `insert - number`. Name this item `Cell`. Enter `0123456789` in the Value field.
+  VIII. Click on the `Add new attribute` dropdown and select `Number`. Name this item `Cell`. Enter `0123456789` in the Value field.
   
-  IX. Click on the `+` icon and select `insert - string`. Name this item `Email`. Enter `student@explore-ai.net` in the Value field.
+  IX. Click on the `Add new attribute` dropdown and select `String`. Name this item `Email`. Enter `student@explore.ai` in the Value field.
   
-  X. Click on the `+` icon and select `insert - string`. Name this item `Message`. Enter `Empty Message` in the Value field.
+  X. Click on the `Add new attribute` dropdown and select `String`. Name this item `Message`. Enter `Empty Message` in the Value field.
 
-  XI. Click on the `+` icon and select `insert - string`. Name this item `Name`. Enter `Student` in the value field.
+  XI. Click on the `Add new attribute` dropdown and select `String`. Name this item `Name`. Enter `Student` in the value field.
   
   <p align="center">
-  <img src="https://raw.githubusercontent.com/Explore-AI/Pictures/master/db-4.PNG" style="width:1000px;"/>
+  <img src="https://github.com/AndileSkosana/cloud-computing-predict/assets/93772102/1fa8ea6e-1421-4714-af6a-6a7bdddc1792" style="width:1000px;"/>
     <br>
     <em>Figure 5: Final populated table after following steps VIII - XI.</em>
   </p>   
@@ -223,40 +214,9 @@ The following steps will help you set this service up within the AWS ecosystem:
   XIII. Select the created table and navigate to the `Overview` tab.
   
   XIV. Scroll down and note your Amazon Resource Name (ARN)	for the created table. *Save this for later use in the IAM policy creation steps*.
-  
---- 
-### 5) Create an IAM Role <a id='5_section_id'></a>
----
-
-In step 5 you once again get the chance to show off your cloud computing skills. This predict involves using *a lot* of AWS services, and as such we need a comprehensive IAM Role that will adequately govern the access and authority of the AWS Lambda function. In this predict you will make use of the following services:
-
-    - AWS Lambda
-    
-    - AWS API Gateway
-    
-    - AWS Comprehend
-    
-    - AWS SES
-    
-    - AWS DynamoDB
-   
-  
-You therefore need an IAM role to give the Lambda function the required access to the various services that we will be using in this predict. In total, you need to create four policies for this IAM Role:
-
- | **Policy** | **Description** |
- |------------|-------------|
- |**AWS Comprehend Policy** | Allows the Lambda function to call AWS Comprehend in order calculate a sentiment score and extract key phrases from received text entered on the website. |
- |**AWS SES Policy** | Allows the Lambda function to invoke the AWS SES service in order to send automated responses via email. |
- |**AWS Basic Lambda Execution Policy** | Grants the Lambda function permission to access AWS services and resources. |
- |**AWS DynamoDB Policy** | Gives the Lambda function write permissions in order to store data from the website to a designated (existing) AWS DynamoDB table. |
-
-| :triangular_flag_on_post: PREDICT TASK :triangular_flag_on_post:                                                                                      |
-| :--------------------                                                                                   |
-| You are tasked with **using the AWS IAM service to set up the necessary policies as described above**. It is important to remember that the DynamoDB policy will be of type inline, and that you will need to use the specific DynamoDB table ARN associated with the table you created in [Step 4](#4_section_id) to appropriately set up this policy.| 
-
 
 ---
-### 6) Set-up the Initial AWS Lambda Function and the AWS API Gateway Trigger <a id='6_section_id'></a>
+### 5) Set-up the Initial AWS Lambda Function and the AWS API Gateway Trigger <a id='5_section_id'></a>
 ---
   
 In this step you will set up the AWS API Gateway and the initial AWS Lambda function. This will be a three-part process:
@@ -268,7 +228,7 @@ In this step you will set up the AWS API Gateway and the initial AWS Lambda func
 
 #### Part 1: Lambda Initialisation
 
-Part 1 involves creating the AWS Lambda Function with a Python 3.7 runtime. You will also attach the IAM role created within step 5 to govern the lambda function's access control.
+Part 1 involves creating the AWS Lambda Function with a Python 3.10 runtime. You will also attach the "CC_Predict_Role" IAM role to govern the lambda function's access control. Give your lambda a relevant name using the following naming convention, Cohort-(first three letters of your first name)(first three letters of your first name)-CC-predict-lambda, so for example Dora Explorer from the January 2023 data engineering part time cohort would be, `2301PTDE-DOREXP-CC-predict-lambda`.
   
   
 #### Part 2: Layer Addition

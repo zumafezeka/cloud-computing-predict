@@ -237,7 +237,7 @@ In part 2, the objective is to add an ARN  layer to the generated lambda functio
  
 #### Part 3: API Gateway Creation
 
-The final part within step 6 is to create the AWS API Gateway and set this endpoint as your lambda's function trigger. At a high level, this gateway is responsible for interfacing between your deployed website (running from AWS Amplify) and the lambda function you have created - invoking the lambda when the gateway receives an API call (HTTP POST request sent by the webpage) and passing through its data payload to the function. This process sets off a chain of programmatic events which ultimately will generate and send your intelligent email automatically.
+The final part within step 5 is to create the AWS API Gateway and set this endpoint as your lambda's function trigger. At a high level, this gateway is responsible for interfacing between your deployed website (running from AWS Amplify) and the lambda function you have created - invoking the lambda when the gateway receives an API call (HTTP POST request sent by the webpage) and passing through its data payload to the function. This process sets off a chain of programmatic events which ultimately will generate and send your intelligent email automatically.
 
 Your API should have the following characteristics: 
  - **API Type**: HTTP.
@@ -269,7 +269,7 @@ Once you have created the API Gateway, you should replace the URL of the endpoin
 | By this point in the process your website should enable you to fill out the form with the appropriate information and, upon submission, you should receive the `Your message has been sent` notification. |
   
 ---
-### 7) AWS Lambda Function for Writing to DynamoDB <a id='7_section_id'></a>
+### 6) AWS Lambda Function for Writing to DynamoDB <a id='6_section_id'></a>
 ---
 
 You are now at a point in the predict where you can start building the actual lambda functionality. Initially you will start off with the simple task of using the AWS Lambda + API Gateway to write the data coming from the website form to the previously created DynamoDB database. If needed, you can familiarise yourself with the overall process as represented within **figure 1**.
@@ -286,7 +286,7 @@ You are now at a point in the predict where you can start building the actual la
 | **Set up the lambda function to write the website POST data to DynamoDB**. To get the functionality displayed in figure 7, you will need to use Python to tell your AWS Lambda function what to do and how to do it. Luckily we have some stater code for you. You can use the code found [here](student_solution_files/basic_lambda_data_decoding.py) to read and decode the incoming data from the website. Then, using the boilerplate code found [here](student_solution_files/write_data_to_dynamodb.py) as starting point, you can enable your lambda function to write to DynamoDB.| 
 
 ---
-### 8) AWS Lambda Function for Sending an Email with AWS SES <a id='8_section_id'></a>
+### 7) AWS Lambda Function for Sending an Email with AWS SES <a id='7_section_id'></a>
 ---
 
 In this step you will setup AWS Simple Email Service (SES), to programmatically send emails when required. This is a two-part process: 
@@ -327,7 +327,7 @@ Having registered the necessary email addresses, you are now ready to invoke AWS
 | At this point we want you to once again show us your great cloud computing and python skills. The **second task involves sending a sample email to your recipient address from your sender address, using AWS SES**. Here we provide some basic guidance in the form of [this](student_solution_files/send_emails_with_ses.py) this template, which your are required to complete and to add to your lambda function in order to help you accomplish your end goal.| 
 
 ---
-### 9) AWS Lambda Function for Using Amazon Comprehend <a id='9_section_id'></a>
+### 8) AWS Lambda Function for Using Amazon Comprehend <a id='8_section_id'></a>
 ---
 
 In this final step you will be building out the predict's NLP functionality with the help of AWS Comprehend. The NLP functionality will enable you to extract the overwhelming sentiment (categorical variable) from a message, as well as a list of its key phrases as determined by AWS comprehend. With the sentiment information and a list of key phrases, you can build in intelligent, automated email responses into your AWS Lambda function. To help you thoroughly understand this section, we provide a three-part breakdown wherein we describe each key element involved in the formation of an intelligent response. 
@@ -529,7 +529,7 @@ Remember that in the example additional keywords were present such as: `CV`, `pr
 Once completed, your predict solution will be marked at a time indicated within the Predict Overview Slides and as communicated on Athena. To facilitate this assessment, please submit the following details via the Predict Submission tab on Athena using [this](student_solution_files/predict_detail_submission_template.csv) simple template: 
  - Your **Name and Surname**; 
  - The **Website URL** of your deployed project as recorded in [Step 3](#3_section_id) of this guide, and 
- - Your **AWS API Gateway URL** as recorded in part 3 of [Step 6](#6_section_id). 
+ - Your **AWS API Gateway URL** as recorded in part 3 of [Step 5](#5_section_id). 
 
 Please also ensure that you have verified the `edsa.predicts@explore-ai.net` email address via AWS SES as instructed in step 8, part 1. 
 

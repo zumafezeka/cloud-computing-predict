@@ -176,7 +176,8 @@ The following steps will help you set this service up within the AWS ecosystem:
   II. On the DynamoDB `Dashboard` select `Create Table`.
 
   <p align="center">
-  <img src="https://raw.githubusercontent.com/Explore-AI/Pictures/master/db-1.PNG" style="width:550px;"/>
+  <img src="https://github.com/AndileSkosana/cloud-computing-predict/assets/93772102/10f597ab-9803-44ba-990f-f26df40f070c" style="width:550px;"/>
+
     <br>
     <em>Figure 2: Create a DynamoDB table</em>
   </p>

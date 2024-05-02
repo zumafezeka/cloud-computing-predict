@@ -44,7 +44,7 @@ def lambda_handler(event, context):
     # -----------------------------
     
     # Instantiate the table. Remember pass the name of the DynamoDB table created in step 4
-    table = dynamodb.Table('# Insert the name of your generated DynamoDB table here')
+    table = dynamodb.Table('2401FTDE-FEZZUM-portfolio-data-table')
     
     # ** Write the responses to the table using the put_item method. **
 

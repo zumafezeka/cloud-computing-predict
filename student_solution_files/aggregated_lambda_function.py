@@ -291,7 +291,7 @@ def lambda_handler(event, context):
     # is still in the sandbox, this address must be verified.
     # --- Insert your code here ---
     # RECIPIENT = dec_dict['email']
-    RECIPIENT = 'zumafezeka@gmail.com'
+    RECIPIENT = 'edsa.predicts@explore-ai.net'
     # -----------------------------
 
 
